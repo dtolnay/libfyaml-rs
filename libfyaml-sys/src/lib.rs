@@ -5,4 +5,6 @@
     non_upper_case_globals
 )]
 
+use libc::FILE;
+
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));

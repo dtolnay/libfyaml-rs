@@ -14,6 +14,9 @@ fn main() {
 
     let bindings = bindgen::Builder::default()
         .header(header)
+        .allowlist_recursively(false)
+        .allowlist_function("fy_.*")
+        .allowlist_type("fy_.*")
         // Variadic functions that use `va_list`.
         // Blocked on https://github.com/rust-lang/rust/issues/44930.
         .blocklist_function("fy_diag_node_override_vreport")
