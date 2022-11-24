@@ -1,9 +1,16 @@
 use std::env;
 use std::path::Path;
+use std::process::Command;
 
 fn main() {
     let header = "libfyaml/include/libfyaml.h";
     println!("cargo:rerun-if-changed={}", header);
+
+    if let Ok(false) = Path::new(header).try_exists() {
+        let _ = Command::new("git")
+            .args(&["submodule", "update", "--init", "libfyaml"])
+            .status();
+    }
 
     let bindings = bindgen::Builder::default()
         .header(header)
