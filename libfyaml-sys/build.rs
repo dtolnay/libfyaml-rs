@@ -44,7 +44,7 @@ fn main() {
         .generate()
         .unwrap();
 
-    let out_dir = env::var("OUT_DIR").unwrap();
+    let out_dir = env::var_os("OUT_DIR").unwrap();
     let out_file = Path::new(&out_dir).join("bindings.rs");
     bindings.write_to_file(out_file).unwrap();
 
