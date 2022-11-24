@@ -3,3 +3,6 @@ name = "libfyaml-sys"
 version = "0.0.0"
 edition = "2021"
 links = "libfyaml"
+
+[build-dependencies]
+bindgen = "0.63"
