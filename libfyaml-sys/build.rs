@@ -18,6 +18,7 @@ fn main() {
         .allowlist_recursively(false)
         .allowlist_function("fy_.*")
         .allowlist_type("fy_.*")
+        .blocklist_function("fy_library_version")
         // Variadic functions that use `va_list`.
         // Blocked on https://github.com/rust-lang/rust/issues/44930.
         .blocklist_function("fy_diag_node_override_vreport")
@@ -48,6 +49,7 @@ fn main() {
     add_c_files(&mut build, Path::new("libfyaml/src/xxhash"));
     build.include("libfyaml/include");
     build.include("libfyaml/src/xxhash");
+    build.define("VERSION", "NULL");
     build.compile("libfyaml");
 }
 
