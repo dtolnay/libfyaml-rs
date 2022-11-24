@@ -13,12 +13,20 @@ env:
 
 jobs:
   test:
-    name: Rust ${{matrix.rust}}
-    runs-on: ubuntu-latest
+    name: ${{matrix.name || format('Rust {0}', matrix.rust)}}
+    runs-on: ${{matrix.os || 'ubuntu'}}-latest
     strategy:
       fail-fast: false
       matrix:
-        rust: [nightly, beta, stable, 1.63.0]
+        include:
+          - rust: nightly
+          - rust: beta
+          - rust: stable
+          - rust: 1.63.0
+          - name: macOS
+            rust: nightly
+            os: macos
+          # TODO: windows (https://github.com/pantoniou/libfyaml/issues/10)
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
