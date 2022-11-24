@@ -5,7 +5,7 @@
     non_upper_case_globals
 )]
 
-#[allow(clippy::all)]
+#[allow(clippy::all, clippy::pedantic)]
 mod bindings {
     use libc::FILE;
 
