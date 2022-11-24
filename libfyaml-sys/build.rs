@@ -11,7 +11,7 @@ fn main() {
 
     if let Ok(false) = Path::new(header).try_exists() {
         let _ = Command::new("git")
-            .args(&["submodule", "update", "--init", "libfyaml"])
+            .args(["submodule", "update", "--init", "libfyaml"])
             .status();
     }
 
