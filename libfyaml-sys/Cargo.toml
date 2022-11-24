@@ -3,6 +3,7 @@ name = "libfyaml-sys"
 version = "0.0.0"
 edition = "2021"
 links = "libfyaml"
+rust-version = "1.63"
 
 [dependencies]
 libc = "0.2"
