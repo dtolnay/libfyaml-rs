@@ -6,6 +6,7 @@ categories = ["api-bindings", "encoding", "parser-implementations"]
 description = "Rust binding for libfyaml"
 documentation = "https://docs.rs/libfyaml-sys"
 edition = "2021"
+keywords = ["yaml"]
 license = "MIT"
 links = "libfyaml"
 repository = "https://github.com/dtolnay/libfyaml-rs"
