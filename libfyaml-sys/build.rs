@@ -14,6 +14,22 @@ fn main() {
 
     let bindings = bindgen::Builder::default()
         .header(header)
+        // Variadic functions that use `va_list`.
+        // Blocked on https://github.com/rust-lang/rust/issues/44930.
+        .blocklist_function("fy_diag_node_override_vreport")
+        .blocklist_function("fy_diag_node_vreport")
+        .blocklist_function("fy_diag_vprintf")
+        .blocklist_function("fy_document_vbuildf")
+        .blocklist_function("fy_document_vscanf")
+        .blocklist_function("fy_emit_event_vcreate")
+        .blocklist_function("fy_node_create_vscalarf")
+        .blocklist_function("fy_node_override_vreport")
+        .blocklist_function("fy_node_set_vanchorf")
+        .blocklist_function("fy_node_vbuildf")
+        .blocklist_function("fy_node_vreport")
+        .blocklist_function("fy_node_vscanf")
+        .blocklist_function("fy_parse_event_vcreate")
+        .blocklist_function("fy_vdiag")
         .prepend_enum_name(false)
         .generate_comments(false)
         .generate()
