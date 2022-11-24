@@ -2,6 +2,7 @@
 name = "libfyaml-sys"
 version = "0.0.0"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
+categories = ["api-bindings", "encoding", "parser-implementations"]
 description = "Rust binding for libfyaml"
 documentation = "https://docs.rs/libfyaml-sys"
 edition = "2021"
