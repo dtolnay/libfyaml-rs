@@ -1,4 +1,5 @@
 use std::env;
+use std::ffi::OsStr;
 use std::path::Path;
 use std::process::Command;
 
@@ -41,4 +42,24 @@ fn main() {
     let out_dir = env::var("OUT_DIR").unwrap();
     let out_file = Path::new(&out_dir).join("bindings.rs");
     bindings.write_to_file(out_file).unwrap();
+
+    let mut build = cc::Build::new();
+    add_c_files(&mut build, Path::new("libfyaml/src/lib"));
+    add_c_files(&mut build, Path::new("libfyaml/src/xxhash"));
+    build.include("libfyaml/include");
+    build.include("libfyaml/src/xxhash");
+    build.compile("libfyaml");
+}
+
+fn add_c_files(build: &mut cc::Build, dir: &Path) {
+    let paths = dir.read_dir().unwrap();
+    for entry in paths {
+        let entry = entry.unwrap();
+        if entry.file_type().unwrap().is_file() {
+            let path = entry.path();
+            if path.extension() == Some(OsStr::new("c")) {
+                build.file(path);
+            }
+        }
+    }
 }
