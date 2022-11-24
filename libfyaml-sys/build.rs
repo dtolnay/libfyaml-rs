@@ -1,5 +1,7 @@
 use std::env;
 use std::ffi::OsStr;
+use std::fs::DirEntry;
+use std::io;
 use std::path::Path;
 use std::process::Command;
 
@@ -55,9 +57,12 @@ fn main() {
 }
 
 fn add_c_files(build: &mut cc::Build, dir: &Path) {
-    let paths = dir.read_dir().unwrap();
+    // Sort the C files to ensure a deterministic build for reproducible builds.
+    let iter = dir.read_dir().unwrap();
+    let mut paths = iter.collect::<io::Result<Vec<_>>>().unwrap();
+    paths.sort_by_key(DirEntry::path);
+
     for entry in paths {
-        let entry = entry.unwrap();
         if entry.file_type().unwrap().is_file() {
             let path = entry.path();
             if path.extension() == Some(OsStr::new("c")) {
