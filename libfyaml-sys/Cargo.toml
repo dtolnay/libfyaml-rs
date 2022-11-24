@@ -1,8 +1,13 @@
 [package]
 name = "libfyaml-sys"
 version = "0.0.0"
+authors = ["David Tolnay <dtolnay@gmail.com>"]
+description = "Rust binding for libfyaml"
+documentation = "https://docs.rs/libfyaml-sys"
 edition = "2021"
+license = "MIT"
 links = "libfyaml"
+repository = "https://github.com/dtolnay/libfyaml-rs"
 rust-version = "1.63"
 
 [dependencies]
