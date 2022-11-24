@@ -14,6 +14,7 @@ fn main() {
 
     let bindings = bindgen::Builder::default()
         .header(header)
+        .prepend_enum_name(false)
         .generate_comments(false)
         .generate()
         .unwrap();
