@@ -50,6 +50,7 @@ fn main() {
     build.include("libfyaml/include");
     build.include("libfyaml/src/xxhash");
     build.define("VERSION", "NULL");
+    build.define("__STDC_WANT_LIB_EXT2__", "1");
     build.compile("libfyaml");
 }
 
