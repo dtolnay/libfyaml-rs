@@ -52,6 +52,7 @@ fn main() {
     build.include("libfyaml/include");
     build.include("libfyaml/src/xxhash");
     build.flag("-Wno-type-limits");
+    build.flag("-Wno-unused-parameter");
     build.define("VERSION", "NULL");
     build.define("__STDC_WANT_LIB_EXT2__", "1");
     build.compile("libfyaml");
