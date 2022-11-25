@@ -5,9 +5,16 @@ use std::ffi::OsStr;
 use std::fs::DirEntry;
 use std::io;
 use std::path::Path;
-use std::process::Command;
+use std::process::{self, Command};
 
 fn main() {
+    let windows = env::var_os("CARGO_CFG_WINDOWS").is_some();
+    if windows {
+        eprintln!("libfyaml is not supported on Windows.");
+        eprintln!("See https://github.com/pantoniou/libfyaml/issues/10");
+        process::exit(1);
+    }
+
     let header = "libfyaml/include/libfyaml.h";
     println!("cargo:rerun-if-changed={}", header);
 
