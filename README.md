@@ -12,7 +12,7 @@ Rust binding for the [libfyaml] C library.
 
 ```toml
 [dependencies]
-libfyaml = "0"
+libfyaml = "0.1"
 ```
 
 ## License
