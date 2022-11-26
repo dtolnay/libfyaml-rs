@@ -27,6 +27,7 @@ jobs:
             rust: nightly
             os: macos
           # TODO: windows (https://github.com/pantoniou/libfyaml/issues/10)
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
@@ -38,6 +39,7 @@ jobs:
     name: Clippy
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@clippy
@@ -46,6 +48,7 @@ jobs:
   miri:
     name: Miri
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@miri
@@ -57,6 +60,7 @@ jobs:
     name: Outdated
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/install@cargo-outdated
