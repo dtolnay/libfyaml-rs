@@ -19,5 +19,8 @@ libc = "0.2"
 bindgen = "0.63"
 cc = "1"
 
+[lib]
+doc-scrape-examples = false
+
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
