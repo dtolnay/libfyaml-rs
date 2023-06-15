@@ -48,6 +48,7 @@ fn main() {
         .blocklist_function("fy_vdiag")
         .prepend_enum_name(false)
         .generate_comments(false)
+        .formatter(bindgen::Formatter::Prettyplease)
         .generate()
         .unwrap();
 
