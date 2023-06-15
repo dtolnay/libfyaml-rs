@@ -24,7 +24,7 @@ fn main() {
             .status();
     }
 
-    let bindings = bindgen::Builder::default()
+    let bindings = bindgen::builder()
         .header(header)
         .allowlist_recursively(false)
         .allowlist_function("fy_.*")
