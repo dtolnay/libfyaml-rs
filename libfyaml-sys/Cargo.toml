@@ -1,6 +1,6 @@
 [package]
 name = "libfyaml-sys"
-version = "0.2.4+fy0.8.0" # remember to update html_root_url
+version = "0.2.5+fy0.8.0" # remember to update html_root_url
 authors = ["David Tolnay <dtolnay@gmail.com>"]
 categories = ["api-bindings", "encoding", "parser-implementations"]
 description = "Rust binding for libfyaml"
