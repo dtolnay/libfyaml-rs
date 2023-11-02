@@ -1,6 +1,6 @@
 [package]
 name = "libfyaml-sys"
-version = "0.2.5+fy0.8.0"
+version = "0.2.6+fy0.8.0"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
 categories = ["api-bindings", "encoding", "parser-implementations"]
 description = "Rust binding for libfyaml"
