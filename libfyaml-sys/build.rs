@@ -8,7 +8,7 @@ use std::error::Error;
 use std::ffi::OsStr;
 use std::fs::{DirEntry, File};
 use std::io::{self, BufRead, BufReader};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::{self, Command};
 
 fn generate_new_version(last_version: &str, commit_sha: &str) -> Result<String, String> {
@@ -112,10 +112,19 @@ fn main() {
     bindings.write_to_file(out_file).unwrap();
 
     let mut build = cc::Build::new();
-    add_c_files(&mut build, Path::new("libfyaml/src/lib"));
-    add_c_files(&mut build, Path::new("libfyaml/src/xxhash"));
+
+    let build_dirs = vec!["lib", "xxhash", "util"];
+    let build_dirs = build_dirs
+        .into_iter()
+        .map(|d| format!("libfyaml/src/{}", d))
+        .map(|d| PathBuf::from(d))
+        .filter(|d| d.exists() && d.is_dir());
+    for build_dir in build_dirs {
+        add_c_files(&mut build, &build_dir);
+        build.include(build_dir.to_str().unwrap());
+    }
+
     build.include("libfyaml/include");
-    build.include("libfyaml/src/xxhash");
     build.flag_if_supported("-Wno-type-limits");
     build.flag_if_supported("-Wno-unused-but-set-parameter");
     build.flag_if_supported("-Wno-unused-parameter");
