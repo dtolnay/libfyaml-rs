@@ -18,6 +18,7 @@ libc = "0.2"
 [build-dependencies]
 bindgen = "0.69"
 cc = "1"
+regex = "1.10.3"
 
 [lib]
 doc-scrape-examples = false

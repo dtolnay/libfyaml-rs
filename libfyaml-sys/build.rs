@@ -1,12 +1,26 @@
 #![allow(clippy::let_underscore_untyped, clippy::uninlined_format_args)]
 
+use regex::Regex;
 use std::env;
 use std::ffi::OsStr;
-use std::fs::DirEntry;
-use std::io;
+use std::fs::{DirEntry, File};
+use std::io::{self, BufRead, BufReader};
 use std::path::Path;
 use std::process::{self, Command};
 
+fn function_names(header_path: &str) -> impl Iterator<Item = String> {
+    let file = File::open(header_path).expect("Unable to open file");
+    let reader = BufReader::new(file);
+    let re = Regex::new(r"^([a-zA-Z].*\s+)?(fy_[a-zA-Z_][a-zA-Z0-9_]+)\([^)]").unwrap();
+
+    reader.lines().filter_map(move |line| {
+        line.ok().and_then(|l| {
+            re.captures(&l).and_then(|cap| {
+                cap.get(2).map(|m| m.as_str().to_string()) // Convert to owned String
+            })
+        })
+    })
+}
 fn main() {
     let windows = env::var_os("CARGO_CFG_WINDOWS").is_some();
     if windows {
@@ -24,28 +38,25 @@ fn main() {
             .status();
     }
 
-    let bindings = bindgen::builder()
+    let mut bindings = bindgen::builder()
         .header(header)
         .allowlist_recursively(false)
         .allowlist_function("fy_.*")
         .allowlist_type("fy_.*")
-        .blocklist_function("fy_library_version")
-        // Variadic functions that use `va_list`.
-        // Blocked on https://github.com/rust-lang/rust/issues/44930.
-        .blocklist_function("fy_diag_node_override_vreport")
-        .blocklist_function("fy_diag_node_vreport")
-        .blocklist_function("fy_diag_vprintf")
-        .blocklist_function("fy_document_vbuildf")
-        .blocklist_function("fy_document_vscanf")
-        .blocklist_function("fy_emit_event_vcreate")
-        .blocklist_function("fy_node_create_vscalarf")
-        .blocklist_function("fy_node_override_vreport")
-        .blocklist_function("fy_node_set_vanchorf")
-        .blocklist_function("fy_node_vbuildf")
-        .blocklist_function("fy_node_vreport")
-        .blocklist_function("fy_node_vscanf")
-        .blocklist_function("fy_parse_event_vcreate")
-        .blocklist_function("fy_vdiag")
+        .blocklist_function("fy_library_version");
+
+    // Variadic functions that use `va_list`.
+    // Blocked on https://github.com/rust-lang/rust/issues/44930.
+    let all_function_names = function_names("libfyaml/include/libfyaml.h");
+
+    let re =
+        Regex::new(r"^.*_v(report|log|printf|buildf|scanf|anchorf|log|event|scalarf|create|diag)$")
+            .unwrap();
+    for function_name in all_function_names.filter(|name| re.is_match(&name)) {
+        bindings = bindings.blocklist_function(function_name);
+    }
+
+    let bindings = bindings
         .prepend_enum_name(false)
         .generate_comments(false)
         .formatter(bindgen::Formatter::Prettyplease)
