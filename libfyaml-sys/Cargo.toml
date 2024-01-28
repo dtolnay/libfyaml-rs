@@ -16,7 +16,9 @@ rust-version = "1.63"
 libc = "0.2"
 
 [build-dependencies]
+git2 = "0.18.1"
 bindgen = "0.69"
+semver = "1.0.21"
 cc = "1"
 regex = "1.10.3"
 
