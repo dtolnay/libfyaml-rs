@@ -150,6 +150,7 @@ fn add_c_files(build: &mut cc::Build, dir: &Path) {
         if entry.file_type().unwrap().is_file() {
             let path = entry.path();
             if path.extension() == Some(OsStr::new("c")) {
+                println!("cargo:rerun-if-changed={}", path.display());
                 build.file(path);
             }
         }
