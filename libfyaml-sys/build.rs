@@ -30,6 +30,7 @@ fn main() {
         .allowlist_function("fy_.*")
         .allowlist_type("fy_.*")
         .blocklist_function("fy_library_version")
+        .blocklist_type("fy_node_mapping_sort_ctx")
         // Variadic functions that use `va_list`.
         // Blocked on https://github.com/rust-lang/rust/issues/44930.
         .blocklist_function("fy_diag_node_override_vreport")
